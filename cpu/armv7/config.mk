@@ -65,7 +65,7 @@ PLATFORM_CPPFLAGS += -DCONFIG_ARM -D__ARM__
 #		$(call cc-option,-mno-thumb-interwork,)
 #endif
 PF_CPPFLAGS_ARM := -marm -mno-thumb-interwork -Wno-unused-but-set-variable \
-	-Werror -Wno-pointer-sign -Wno-strict-aliasing
+	-Wno-pointer-sign -Wno-strict-aliasing
 
 # Only test once
 ifneq ($(CONFIG_SPL_BUILD),y)

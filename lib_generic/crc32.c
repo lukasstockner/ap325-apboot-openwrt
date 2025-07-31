@@ -176,7 +176,7 @@ uLong ZEXPORT crc32(crc, buf, len)
  * Calculate the crc32 checksum triggering the watchdog every 'chunk_sz' bytes
  * of input.
  */
-ulong ZEXPORT crc32_wd (ulong crc,
+uLong ZEXPORT crc32_wd (uLong crc,
 			   const unsigned char *buf,
 			   uInt len, uInt chunk_sz)
 {

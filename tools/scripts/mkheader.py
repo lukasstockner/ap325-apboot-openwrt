@@ -64,7 +64,7 @@ def usage(msg=None):
     if msg != None:
         sys.stderr.write("mkheader: %s\n" % msg)
 
-    print "Usage: mkheader.py <base-addr> <input-file> <output-file>"
+    print("Usage: mkheader.py <base-addr> <input-file> <output-file>")
 
     if msg != None:
         exit(1)

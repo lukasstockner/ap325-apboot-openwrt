@@ -38,7 +38,6 @@
 #include <post.h>
 
 void inline __show_boot_progress (int val) {}
-void show_boot_progress (int val) __attribute__((weak, alias("__show_boot_progress")));
 
 #ifdef CONFIG_SILENT_CONSOLE
 DECLARE_GLOBAL_DATA_PTR;

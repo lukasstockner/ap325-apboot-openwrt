@@ -103,11 +103,9 @@ CROSS_COMPILE = arm-linux-
 endif
 endif
 ifeq ($(CPU),armv7)
-CROSS_COMPILE = ${ARUBA_SRC}/aos-cmn/tools/armv7-linux-gnu-uClibc-0.9.30/usr/bin/arm-linux-
+CROSS_COMPILE = arm-none-eabi-
 ifeq ($(SOC), ipq806x)
-STAGING_DIR=${ARUBA_SRC}/aos-cmn/tools/armv7-openwrt-linux-gnu-uClibc-0.9.33.2
-export STAGING_DIR
-CROSS_COMPILE = ${ARUBA_SRC}/aos-cmn/tools/armv7-openwrt-linux-gnu-uClibc-0.9.33.2/bin/arm-openwrt-linux-
+CROSS_COMPILE = arm-none-eabi-
 endif
 endif
 ifeq ($(ARCH),i386)
@@ -278,7 +276,7 @@ BINCPY = cp -f u-boot.bin u-boot-${MV_OUTPUT}.bin
 ELFCPY = cp -f u-boot u-boot-${MV_OUTPUT}
 SRECCPY = cp -f u-boot.srec u-boot-${MV_OUTPUT}.srec
 ifeq ($(SOC), ipq806x)
-PKGMBN = python tools/scripts/mkheader.py $(TEXT_BASE) u-boot.bin u-boot.mbn
+PKGMBN = python3 tools/scripts/mkheader.py $(TEXT_BASE) u-boot.bin u-boot.mbn
 else
 PKGMBN =
 endif
@@ -307,9 +305,9 @@ marvell-dram/dramregs_${MV_OUTPUT}.txt u-boot.bin u-boot-${MV_OUTPUT}-uart.bin
 
 all:		$(ALL)
 
-u-boot.hex:	u-boot
-		@echo "  HEX     u-boot.hex"
-		./tools/hexdump -f u-boot.bin >u-boot.hex
+#u-boot.hex:	u-boot
+#		@echo "  HEX     u-boot.hex"
+#		./tools/hexdump -f u-boot.bin >u-boot.hex
 #		$(OBJCOPY) ${OBJCFLAGS} -O ihex $< $@
 
 u-boot.srec:	u-boot u-boot.bin
@@ -343,7 +341,7 @@ endif
 #		$(DO_IMAGE_UART)
 endif
 
-		./tools/hexdump -f u-boot.bin >u-boot.hex
+#		./tools/hexdump -f u-boot.bin >u-boot.hex
 
 u-boot.img:	u-boot.bin
 		./tools/mkimage -A $(ARCH) -T firmware -C none \

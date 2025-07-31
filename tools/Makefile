@@ -82,21 +82,21 @@ HOSTOS := $(shell uname -s | tr A-Z a-z | \
 ifeq ($(HOSTOS)-$(HOSTARCH),darwin-ppc)
 HOST_CFLAGS = -traditional-cpp -Wall
 HOST_LDFLAGS =-multiply_defined suppress
-HOST_ENVIRO_CFLAGS = -traditional-cpp -m32
+HOST_ENVIRO_CFLAGS = -traditional-cpp
 
 else
 ifeq ($(HOSTOS)-$(HOSTARCH),netbsd-ppc)
 HOST_CFLAGS = -Wall -pedantic
 HOST_LDFLAGS =
-HOST_ENVIRO_CFLAGS = -m32
+HOST_ENVIRO_CFLAGS =
 
 #
 # Everyone else
 #
 else
-HOST_CFLAGS = -Wall -m32
+HOST_CFLAGS = -Wall
 HOST_LDFLAGS = -static
-HOST_ENVIRO_CFLAGS = -m32 -Werror
+HOST_ENVIRO_CFLAGS = -Werror
 endif
 endif
 

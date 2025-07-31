@@ -210,17 +210,7 @@ enum bootstage_id {
  */
 ulong timer_get_boot_us(void);
 
-#ifndef CONFIG_SPL_BUILD
-/*
- * Board code can implement show_boot_progress() if needed.
- *
- * @param val	Progress state (enum bootstage_id), or -id if an error
- *		has occurred.
- */
-void show_boot_progress(int val);
-#else
 #define show_boot_progress(val) do {} while (0)
-#endif
 
 #if defined(CONFIG_BOOTSTAGE) && !defined(CONFIG_SPL_BUILD)
 /* This is the full bootstage implementation */

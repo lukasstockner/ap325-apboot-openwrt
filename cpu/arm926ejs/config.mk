@@ -37,4 +37,4 @@ PLATFORM_RELFLAGS += -fno-strict-aliasing  -fno-common -ffixed-r8 \
 PLATFORM_CPPFLAGS += -march=armv5t
 
 endif
-PLATFORM_CPPFLAGS += -Werror -Wno-pointer-sign
+PLATFORM_CPPFLAGS += -Wno-pointer-sign
