@@ -53,7 +53,6 @@
 
 #if defined(CONFIG_FIT)
 #include <u-boot/md5.h>
-#include <xyssl/sha1.h>
 
 static int fit_check_ramdisk (const void *fit, int os_noffset,
 		uint8_t arch, int verify);
@@ -2409,10 +2408,6 @@ static int calculate_hash (const void *data, int data_len, const char *algo,
 							CHUNKSZ_CRC32);
 		*((uint32_t *)value) = cpu_to_uimage (*((uint32_t *)value));
 		*value_len = 4;
-	} else if (strcmp (algo, "sha1") == 0 ) {
-		sha1_csum_wd ((unsigned char *) data, data_len,
-				(unsigned char *) value, CHUNKSZ_SHA1);
-		*value_len = 20;
 	} else if (strcmp (algo, "md5") == 0 ) {
 		md5_wd ((unsigned char *)data, data_len, value, CHUNKSZ_MD5);
 		*value_len = 16;

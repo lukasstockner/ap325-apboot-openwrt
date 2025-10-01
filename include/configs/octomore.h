@@ -108,8 +108,6 @@
 #define MTDIDS_DEFAULT                  "nand0=nand0"
 #define CONFIG_MTD_MAX_DEVICE           3
 #define ARUBA_BOARD_TYPE                "Octomore"
-#define __SIGNED_IMAGES__               1
-#define __ENFORCE_SIGNED_IMAGES__       1
 #define AP_SLOW_FLASH_STAGING_AREA      CFG_TFTP_STAGING_AREA
 #define CONFIG_VERIFY_LOAD_ADDR         (CONFIG_SYS_SDRAM_BASE + (32 << 20)) 
 /*

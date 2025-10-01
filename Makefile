@@ -208,7 +208,6 @@ ifeq ($(ARCH), ppc)
 LIBS += fs/cramfs/libcramfs.a fs/fat/libfat.a fs/fdos/libfdos.a fs/jffs2/libjffs2.a \
 	fs/reiserfs/libreiserfs.a fs/ext2/libext2fs.a
 endif
-LIBS += xyssl-0.9/libxyssl.a
 LIBS += net/libnet.a
 ifeq ($(ARCH), ppc)
 LIBS += disk/libdisk.a
