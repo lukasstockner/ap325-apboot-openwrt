@@ -93,20 +93,24 @@
 #define nvram_manuf_t                   std_manuf_t
 #define CFG_SDRAM_BASE                  CONFIG_SYS_SDRAM_BASE
 #define APBOOT_SIZE                     (1024 * 1024)
+/* MODIFIED: Double aos0 size */
 #define AP_PRODUCTION_IMAGE             0x0
-#define AP_PRODUCTION_IMAGE_SIZE        (24 * 1024 * 1024)
-#define AP_PRODUCTION_MTD_SIZE          0x2000000
+#define AP_PRODUCTION_IMAGE_SIZE        (48 * 1024 * 1024)
+#define AP_PRODUCTION_MTD_SIZE          0x4000000
 #define AP_PRODUCTION_IMAGE_NAME        "aos0"
-#define AP_PROVISIONING_IMAGE           0x2000000
-#define AP_PROVISIONING_IMAGE_SIZE      (24 * 1024 * 1024)
-#define AP_PROVISIONING_MTD_SIZE        0x2000000
+/* MODIFIED: Double aos1 size */
+#define AP_PROVISIONING_IMAGE           0x4000000
+#define AP_PROVISIONING_IMAGE_SIZE      (48 * 1024 * 1024)
+#define AP_PROVISIONING_MTD_SIZE        0x4000000
 #define AP_PROVISIONING_IMAGE_NAME      "aos1"
-#define AP_UBI_FS_OFFSET                0x4000000
-#define AP_UBI_FS_SIZE                  0x4000000
-#define AP_UBI_FS_NAME                  "ubifs"
+/* MODIFIED: Remove ubifs mtd partition */
+#undef AP_UBI_FS_OFFSET
+#undef AP_UBI_FS_SIZE
+#undef AP_UBI_FS_NAME
 //#define CFG_FLASH_SIZE                  (4 * 1024 * 1024)
 #define MTDIDS_DEFAULT                  "nand0=nand0"
-#define CONFIG_MTD_MAX_DEVICE           3
+/* MODIFIED: Remove ubifs mtd partition */
+#define CONFIG_MTD_MAX_DEVICE           2
 #define ARUBA_BOARD_TYPE                "Octomore"
 #define AP_SLOW_FLASH_STAGING_AREA      CFG_TFTP_STAGING_AREA
 #define CONFIG_VERIFY_LOAD_ADDR         (CONFIG_SYS_SDRAM_BASE + (32 << 20)) 
@@ -356,6 +360,7 @@ typedef struct {
 #undef CONFIG_NETMASK
 
 #undef	CONFIG_EXTRA_ENV_SETTINGS
+/* MODIFIED: Remove ubifs mtd partition */
 #define	CONFIG_EXTRA_ENV_SETTINGS			\
 	"autoload=n\0"					\
 	"boardname=Octomore\0"			\
@@ -365,8 +370,7 @@ typedef struct {
 	"bootfile=ipq806x.ari\0"		        \
 	"mtdids=" MTDIDS_DEFAULT "\0"	      \
 	"mtdparts=" "mtdparts=nand0:" MK_STR(AP_PRODUCTION_MTD_SIZE) "@" MK_STR(AP_PRODUCTION_IMAGE) "(" AP_PRODUCTION_IMAGE_NAME ")," \
-	 MK_STR(AP_PROVISIONING_MTD_SIZE) "@" MK_STR(AP_PROVISIONING_IMAGE) "(" AP_PROVISIONING_IMAGE_NAME "),"   \
-                MK_STR(AP_UBI_FS_SIZE) "@" MK_STR(AP_UBI_FS_OFFSET) "(" AP_UBI_FS_NAME ")" "\0"	      \
+	 MK_STR(AP_PROVISIONING_MTD_SIZE) "@" MK_STR(AP_PROVISIONING_IMAGE) "(" AP_PROVISIONING_IMAGE_NAME ")" "\0" \
 	""
 
 #define CONFIG_CMD_ECHO
@@ -377,7 +381,8 @@ typedef struct {
 #define CONFIG_CMD_MTDPARTS
 
 #define CONFIG_RBTREE
-#define CONFIG_UBIFS
+/* MODIFIED: Disable CONFIG_UBIFS since we removed the ubifs volume. */
+#undef CONFIG_UBIFS
 #define CONFIG_CMD_UBI
 
 #define CONFIG_IPQ_SNPS_GMAC
