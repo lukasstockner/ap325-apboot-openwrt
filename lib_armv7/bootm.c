@@ -407,9 +407,9 @@ static void boot_prep_linux(bootm_headers_t *images)
 	/* MODIFIED: Generate bootargs from os_partition if not set */
 	char os_partition_cmdline[128];
 	if (!commandline) {
-		char *os_partition = getenv("os_partition");
-		if (os_partition) {
-			snprintf(os_partition_cmdline, sizeof(os_partition_cmdline), "ubi.mtd=aos%s", os_partition);
+		extern int apboot_os_partition;
+		if (apboot_os_partition >= 0) {
+			snprintf(os_partition_cmdline, sizeof(os_partition_cmdline), "ubi.mtd=aos%d", apboot_os_partition);
 			commandline = os_partition_cmdline;
 		}
 	}
