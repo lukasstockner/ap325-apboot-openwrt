@@ -354,12 +354,8 @@ static void uart_dm_init(void)
 	writel(GSBI_PROTOCOL_CODE_I2C_UART <<
 		GSBI_CTRL_REG_PROTOCOL_CODE_S,
 		GSBI_CTRL_REG(gsbi_base));
-#ifdef CONFIG_APBOOT
-    /* For aruba AP, the uart baudrate is 9600 */
-        writel(0x55, MSM_BOOT_UART_DM_CSR(dm_base));
-#else
-        writel(UART_DM_CLK_RX_TX_BIT_RATE, MSM_BOOT_UART_DM_CSR(dm_base));
-#endif
+	/* MODIFIED: Don't override baudrate to 9600. */
+	writel(UART_DM_CLK_RX_TX_BIT_RATE, MSM_BOOT_UART_DM_CSR(dm_base));
 	/* Intialize UART_DM */
 	msm_boot_uart_dm_init(dm_base);
 }

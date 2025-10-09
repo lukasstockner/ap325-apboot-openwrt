@@ -131,7 +131,8 @@
 
 /* allow to overwrite serial and ethaddr */
 #define CONFIG_ENV_OVERWRITE
-#define CONFIG_BAUDRATE                 9600 
+/* MODIFIED: Use 115200 baudrate. */
+#define CONFIG_BAUDRATE                 115200
 #define CONFIG_SYS_BAUDRATE_TABLE       {4800, 9600, 19200, 38400, 57600, 115200}
 
 #define V_PROMPT                        "(Octomore) # "
