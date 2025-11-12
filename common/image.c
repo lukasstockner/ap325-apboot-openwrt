@@ -1207,11 +1207,9 @@ int boot_relocate_fdt (struct lmb *lmb, ulong bootmap_base,
 		goto error;
 	}
 
-	/* position on a 4K boundary before the alloc_current */
 	/* Pad the FDT by a specified amount */
 	of_len = *of_size + CONFIG_SYS_FDT_PAD;
-	of_start = (void *)(unsigned long)lmb_alloc_base(lmb, of_len, 0x1000,
-			(CONFIG_SYS_BOOTMAPSZ + bootmap_base));
+	of_start = (void *)(unsigned long)lmb_alloc_base(lmb, of_len, 0x1000, 0);
 
 	if (of_start == 0) {
 		puts("device tree - allocation error\n");
@@ -2412,8 +2410,8 @@ static int calculate_hash (const void *data, int data_len, const char *algo,
 		md5_wd ((unsigned char *)data, data_len, value, CHUNKSZ_MD5);
 		*value_len = 16;
 	} else {
-		debug ("Unsupported hash alogrithm\n");
-		return -1;
+		debug("Unsupported hash alogrithm: %s\n", algo);
+		return 1;
 	}
 	return 0;
 }
@@ -2653,8 +2651,7 @@ int fit_image_check_hashes (const void *fit, int image_noffset)
 			}
 
 			if (calculate_hash (data, size, algo, value, &value_len)) {
-				err_msg = " error!\nUnsupported hash algorithm";
-				goto error;
+				continue;
 			}
 
 			if (value_len != fit_value_len) {

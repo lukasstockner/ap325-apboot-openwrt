@@ -111,6 +111,10 @@ aruba_basic_image_verify(
 	WATCHDOG_RESET();
 
 	ai = (aruba_image_t *)load_addr;
+	if (strncmp(ARUBA_IMAGE_MAGIC, ai->magic, strlen(ARUBA_IMAGE_MAGIC))) {
+		printf("Invalid image magic. Treating as plain image.\n");
+		return -2;
+	}
 	if (ai->formatVer != htonl(ARUBA_IMAGE_STRUCT_VER)) {
 		printf("Invalid image format version: 0x%x\n", ntohl(ai->formatVer));
 		return 2;
@@ -135,7 +139,7 @@ good:
 #endif
 
 	if (ai->type != kind) {
-		printf("Invalid image type: 0x%x\n", ai->type);
+		printf("Invalid image type: 0x%x (expected 0x%x)\n", ai->type, kind);
 		return 2;
 	}
 
