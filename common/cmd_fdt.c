@@ -1,4 +1,3 @@
-#ifdef powerpc
 /*
  * (C) Copyright 2007
  * Gerald Van Baren, Custom IDEAS, vanbaren@cideas.com
@@ -26,6 +25,9 @@
  */
 
 #include <common.h>
+
+#if defined(powerpc) || defined(CONFIG_FDT)
+
 #include <command.h>
 #include <watchdog.h>
 #include <linux/ctype.h>
