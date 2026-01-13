@@ -412,10 +412,10 @@ int board_late_init(void)
 
 #ifdef CONFIG_CMD_UBI
     /* init mtd device */
-    /* MODIFIED: Remove ubifs mtd partition */
-    snprintf(mtdparts, sizeof(mtdparts), "mtdparts=nand0:0x%x@0x%x(%s),0x%x@0x%x(%s)", \
+    snprintf(mtdparts, sizeof(mtdparts), "mtdparts=nand0:0x%x@0x%x(%s),0x%x@0x%x(%s),0x%x@0x%x(%s)", \
             AP_PRODUCTION_MTD_SIZE, AP_PRODUCTION_IMAGE, AP_PRODUCTION_IMAGE_NAME, \
-            AP_PROVISIONING_MTD_SIZE, AP_PROVISIONING_IMAGE, AP_PROVISIONING_IMAGE_NAME);
+            AP_PROVISIONING_MTD_SIZE, AP_PROVISIONING_IMAGE, AP_PROVISIONING_IMAGE_NAME, \
+            AP_UBI_FS_SIZE, AP_UBI_FS_OFFSET, AP_UBI_FS_NAME);
 
     setenv("mtdparts", mtdparts);
     
@@ -457,8 +457,6 @@ int board_late_init(void)
     /* init ubi devices */
     ubi_init();
 
-    /* MODIFIED: Disable automatic provisioning of ubi volumes */
-#if 0
     /* create ubi volume */
     for (i = 0; i < CONFIG_MTD_MAX_DEVICE; i++) {
         struct ubi_device *ubi;
@@ -496,7 +494,6 @@ int board_late_init(void)
         /* Call real ubi create volume */
         ubi_create_volume(ubi, &req);
     }
-#endif
 #endif
 	return 0;
 }

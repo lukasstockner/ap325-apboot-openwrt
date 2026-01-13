@@ -308,8 +308,12 @@ aruba_ubi_image(void *maddr, void *faddr, unsigned size, unsigned rw)
         av[1] = "write";
     }
     av[2] = dbuf;
-    /* MODIFIED: Change kernel ubi volume name from aos0/aos1 to kernel. */
-    av[3] = "kernel";
+
+    if ((unsigned)faddr == AP_PRODUCTION_IMAGE) {
+        av[3] = AP_PRODUCTION_IMAGE_NAME;
+    } else {
+        av[3] = AP_PROVISIONING_IMAGE_NAME;
+    }
     snprintf(sbuf, sizeof(sbuf), "0x%x", size);
     av[4] = sbuf;
     av[5] = 0;
