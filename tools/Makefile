@@ -113,6 +113,11 @@ ifeq ($(HOSTARCH),x86_64)
 HOST_LDFLAGS =
 endif
 
+# Apple's linker does not support fully static binaries (no crt0.o).
+ifeq ($(HOSTOS),darwin)
+HOST_LDFLAGS =
+endif
+
 #
 # Include this after HOSTOS HOSTARCH check
 # so that we can act intelligently.
