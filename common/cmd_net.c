@@ -151,17 +151,19 @@ restart:
 #ifdef CONFIG_APBOOT
 		r = aruba_basic_image_verify((void *)load_addr, 
 			__OS_IMAGE_TYPE, ARUBA_IMAGE_TYPE_ELF, 0, 0);
-		if (r) {
+		if (r > 0) {
 			goto retry_download;
-		}
+		} else if (r == 0) {
 #if defined(__SIGNED_IMAGES__)
-        if ((r = image_verify((aruba_image_t*) ramaddr))) {
-			r = 2;
-            goto retry_download;
-		}
+			if ((r = image_verify((aruba_image_t*) ramaddr))) {
+				r = 2;
+				goto retry_download;
+			}
 #endif
+			ramaddr += ARUBA_HEADER_SIZE;
+		}
 #endif	// apboot
-		(void)boot_aruba_image(ramaddr + ARUBA_HEADER_SIZE);
+		(void)boot_aruba_image(ramaddr);
 	} else if (r == 2) {	// 2 == image verification failure
 		uint64_t t;
 retry_download:
@@ -383,20 +385,22 @@ netboot_common (proto_t proto, cmd_tbl_t *cmdtp, int argc, char *argv[])
 #endif /* CONFIG_MSR_SUBTYPE */
 		rcode = aruba_basic_image_verify((void *)load_addr, 
 			__OS_IMAGE_TYPE, ARUBA_IMAGE_TYPE_ELF, 0, 0);
-		if (rcode) {
+		if (rcode > 0) {
 			goto out;
 		}
+		else if (rcode == 0) {
 #if defined(__SIGNED_IMAGES__)
-        if ((rcode = image_verify((aruba_image_t*) load_addr))) {
-			rcode = 2;
-            goto out;
+			if ((rcode = image_verify((aruba_image_t*) load_addr))) {
+				rcode = 2;
+				goto out;
+			}
+#endif
+			load_addr += ARUBA_HEADER_SIZE;
 		}
 #endif
-#endif
-		printf ("Automatic boot of image at addr 0x%08lX ...\n",
+		debug ("Automatic boot of network provided image at addr 0x%08lX ...\n",
 			load_addr);
 #ifdef CONFIG_APBOOT
-        load_addr += ARUBA_HEADER_SIZE;
 		rcode = boot_aruba_image(load_addr);
 #else
 		rcode = do_bootm (cmdtp, 0, 1, local_args);

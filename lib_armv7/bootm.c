@@ -374,7 +374,7 @@ static int create_fdt(bootm_headers_t *images)
 
 	debug("using: FDT\n");
 
-	boot_fdt_add_mem_rsv_regions(lmb, *of_flat_tree);
+	//boot_fdt_add_mem_rsv_regions(lmb, *of_flat_tree);
 
 	rd_len = images->rd_end - images->rd_start;
 	ret = boot_ramdisk_high(lmb, images->rd_start, rd_len,
@@ -382,14 +382,15 @@ static int create_fdt(bootm_headers_t *images)
 	if (ret)
 		return ret;
 
-	ret = boot_relocate_fdt(lmb, of_flat_tree, &of_size);
+	ulong bootmap_base = getenv_bootm_low();
+	ret = boot_relocate_fdt(lmb, bootmap_base, of_flat_tree, &of_size);
 	if (ret)
 		return ret;
 
 	fdt_chosen(*of_flat_tree, 1);
 	fixup_memory_node(*of_flat_tree);
-	fdt_fixup_ethernet(*of_flat_tree);
-	fdt_initrd(*of_flat_tree, *initrd_start, *initrd_end, 1);
+	//fdt_fixup_ethernet(*of_flat_tree);
+	//fdt_initrd(*of_flat_tree, *initrd_start, *initrd_end, 1);
 #ifdef CONFIG_OF_BOARD_SETUP
 	ft_board_setup(*of_flat_tree, gd->bd);
 #endif

@@ -1,4 +1,3 @@
-#ifdef powerpc
 /*
  * (C) Copyright 2007
  * Gerald Van Baren, Custom IDEAS, vanbaren@cideas.com
@@ -25,6 +24,9 @@
  */
 
 #include <common.h>
+
+#if defined(powerpc) || defined(CONFIG_FDT)
+
 #include <stdio_dev.h>
 #include <linux/ctype.h>
 #include <linux/types.h>
@@ -486,6 +488,7 @@ void fdt_fixup_ethernet(void *fdt)
 		sprintf(mac, "eth%daddr", ++i);
 	}
 #ifndef CONFIG_TOMATIN
+#ifndef CONFIG_OCTOMORE
 	/* this sucks; we should move to more than one environment variable */
 	if (!is_zero_ether_addr(bd->bi_enet1addr)) {
 		path = fdt_getprop(fdt, node, "ethernet1", NULL);
@@ -496,6 +499,7 @@ void fdt_fixup_ethernet(void *fdt)
 				bd->bi_enet1addr, 6, 1);
 		}
 	}
+#endif
 #endif
 }
 
@@ -1318,4 +1322,4 @@ err_size:
 	return ret;
 }
 #endif
-#endif /* powerpc */
+#endif /* powerpc || CONFIG_FDT */
