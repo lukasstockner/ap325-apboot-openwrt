@@ -25,7 +25,13 @@ ifndef ARUBA_MAKE_VERBOSE
 MAKEFLAGS += --no-print-directory -s
 endif
 
-TSTAMP:=$(shell date +'%Y-%m-%d at %H:%M:%S')
+ifdef SOURCE_DATE_EPOCH
+BUILD_DATE = LC_ALL=C date -u -d "@$(SOURCE_DATE_EPOCH)" +$(1) 2>/dev/null
+else
+BUILD_DATE = LC_ALL=C date +$(1)
+endif
+
+TSTAMP:=$(shell $(call BUILD_DATE,'%Y-%m-%d at %H:%M:%S'))
 
 # NOTE
 # NOTE THIS VERSION INFORMATION IS ONLY USED BY DEFAULT; SEE include/[ac]pboot_ver.mk
@@ -383,8 +389,8 @@ $(SUBDIRS):
 		$(MAKE) -C $@ all
 
 timestamp_h:
-		@LC_ALL=C date +'#define U_BOOT_DATE "%b %d %C%y"' > include/timestamp.h
-		@LC_ALL=C date +'#define U_BOOT_TIME "%T"' >> include/timestamp.h
+		@( $(call BUILD_DATE,'#define U_BOOT_DATE "%b %d %C%y"') ) > include/timestamp.h
+		@( $(call BUILD_DATE,'#define U_BOOT_TIME "%T"') ) >> include/timestamp.h
 
 $(obj)lib/asm-offsets.s:	\
 	$(src)lib/asm-offsets.c include/configs/${CONFIG_FILE}.h \
