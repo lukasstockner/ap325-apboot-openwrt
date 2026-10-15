@@ -107,8 +107,8 @@ int lzmaBuffToBuffDecompress (unsigned char *outStream, SizeT *uncompressedSize,
         }
     }
 
-    debug ("LZMA: Uncompresed size............ 0x%lx\n", outSizeFull);
-    debug ("LZMA: Compresed size.............. 0x%lx\n", compressedSize);
+    debug ("LZMA: Uncompressed size........... 0x%lx\n", outSizeFull);
+    debug ("LZMA: Compressed size............. 0x%lx\n", compressedSize);
 
     g_Alloc.Alloc = SzAlloc;
     g_Alloc.Free = SzFree;

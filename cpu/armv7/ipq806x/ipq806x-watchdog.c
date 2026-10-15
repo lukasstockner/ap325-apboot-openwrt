@@ -141,7 +141,6 @@ hw_watchdog_off(void)
     /* enable external watch dog */
     gpio_out(GPIO_WD_DISABLE, 1);
 #endif
-	writel(0, APCS_WDT0_EN);
 }
 
 int
@@ -157,7 +156,15 @@ int
 do_nodog(cmd_tbl_t *cmdtp, int flag, int argc, char *argv[])
 {
     hw_watchdog_off();
-    printf("Watchdog disabled\n");
+    printf("External watchdog disabled\n");
+    return 0;
+}
+
+int
+do_noidog(cmd_tbl_t *cmdtp, int flag, int argc, char *argv[])
+{
+    writel(0, APCS_WDT0_EN);
+    printf("Internal watchdog disabled\n");
     return 0;
 }
 
@@ -177,7 +184,13 @@ U_BOOT_CMD(
 
 U_BOOT_CMD(
     nodog,     1,     1,      do_nodog,
-    "nodog - disable watchdog\n",
+    "nodog - disable external watchdog\n",
+    "- disable watchdog\n"
+);
+
+U_BOOT_CMD(
+    noidog,     1,     1,      do_noidog,
+    "noidog - disable internal watchdog\n",
     "- disable watchdog\n"
 );
 

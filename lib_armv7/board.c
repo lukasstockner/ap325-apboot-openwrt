@@ -160,7 +160,7 @@ static int display_banner(void)
 {
 #ifdef CONFIG_APBOOT
 	extern char build_num[], build_time[];
-	printf ("\n\n%s (build %s)\n", version_string, build_num);
+	printf ("\n\n%s (build %s) with OpenWRT support\n", version_string, build_num);
 	printf ("Built: %s\n\n", build_time);
 
 #ifdef __MODEL_STR__

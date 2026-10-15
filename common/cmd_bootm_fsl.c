@@ -72,9 +72,7 @@ DECLARE_GLOBAL_DATA_PTR;
 #ifdef CONFIG_BALVENIE
 extern void enable_ethernet_ports(int en);
 #endif
-#ifndef CONFIG_SYS_BOOTM_LEN
-#define CONFIG_SYS_BOOTM_LEN	0x800000	/* use 8MByte as default max gunzip size */
-#endif
+#define CONFIG_SYS_BOOTM_LEN	0xA00000	/* default max gunzip size */
 
 #ifdef CONFIG_BZIP2
 extern void bz_internal_error(int);
@@ -414,7 +412,7 @@ static int bootm_load_os(image_info_t os, ulong *load_end, int boot_progress)
 #ifdef CONFIG_LZMA
 	case IH_COMP_LZMA: {
 		SizeT lzma_len = unc_len;
-		debug ("   Uncompressing %s ... ", type_name);
+		printf ("   Uncompressing %s ... ", type_name);
 
 		ret = lzmaBuffToBuffDecompress(
 			(unsigned char *)load, &lzma_len,
@@ -455,8 +453,8 @@ static int bootm_load_os(image_info_t os, ulong *load_end, int boot_progress)
 
 	flush_cache(load, (*load_end - load) * sizeof(ulong));
 
-	debug ("OK\n");
-	debug ("   kernel loaded at 0x%08lx, end = 0x%08lx\n", load, *load_end);
+	printf ("OK\n");
+	printf ("   kernel loaded at 0x%08lx, end = 0x%08lx\n", load, *load_end);
 	if (boot_progress)
 		show_boot_progress (7);
 
@@ -897,7 +895,7 @@ static void *boot_get_kernel (cmd_tbl_t *cmdtp, int flag, int argc, char * const
 	*os_data = *os_len = 0;
 	switch (genimg_get_format ((void *)img_addr)) {
 	case IMAGE_FORMAT_LEGACY:
-		debug ("## Booting kernel from Legacy Image at %08lx ...\n",
+		printf ("## Booting kernel from Legacy Image at %08lx ...\n",
 				img_addr);
 		hdr = image_get_kernel (img_addr, images->verify);
 		if (!hdr)
@@ -905,7 +903,8 @@ static void *boot_get_kernel (cmd_tbl_t *cmdtp, int flag, int argc, char * const
 		show_boot_progress (5);
 
 		/* get os_data and os_len */
-		switch (image_get_type (hdr)) {
+		int itype;
+		switch (itype = image_get_type (hdr)) {
 		case IH_TYPE_KERNEL:
 			*os_data = image_get_data (hdr);
 			*os_len = image_get_data_size (hdr);
@@ -918,7 +917,7 @@ static void *boot_get_kernel (cmd_tbl_t *cmdtp, int flag, int argc, char * const
 			*os_len = image_get_data_size (hdr);
 			break;
 		default:
-			printf ("Wrong Image Type for %s command\n", cmdtp->name);
+			printf ("Wrong Image Type 0x%x for %s command\n", itype, cmdtp->name);
 			show_boot_progress (-5);
 			return NULL;
 		}
@@ -938,7 +937,7 @@ static void *boot_get_kernel (cmd_tbl_t *cmdtp, int flag, int argc, char * const
 #if defined(CONFIG_FIT)
 	case IMAGE_FORMAT_FIT:
 		fit_hdr = (void *)img_addr;
-		debug ("## Booting kernel from FIT Image at %08lx ...\n",
+		printf ("## Booting kernel from FIT Image at %08lx ...\n",
 				img_addr);
 
 		if (!fit_check_format (fit_hdr)) {
@@ -1012,7 +1011,7 @@ static void *boot_get_kernel (cmd_tbl_t *cmdtp, int flag, int argc, char * const
 	return (void *)img_addr;
 }
 
-#ifndef CONFIG_APBOOT
+#ifdef CONFIG_APBOOT
 U_BOOT_CMD(
 	bootm,	CONFIG_SYS_MAXARGS,	1,	do_bootm,
 	"boot application image from memory",
