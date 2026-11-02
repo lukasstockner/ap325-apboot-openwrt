@@ -412,7 +412,9 @@ typedef struct {
 #define CONFIG_BOOT_RETRY_TIME     120
 #define CONFIG_RESET_TO_RETRY      1
 #define CONFIG_HW_WATCHDOG         1
-#define CONFIG_RESET_BUTTON        1
+/* Disabled: holding the reset button during boot would run factory_reset,
+ * wiping both software images and the environment. */
+/* #define CONFIG_RESET_BUTTON        1 */
 #define CFG_LATE_BOARD_INIT        1
 #define CONFIG_AUTO_COMPLETE       1
 

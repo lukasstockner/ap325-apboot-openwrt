@@ -34,9 +34,11 @@
 
 DECLARE_GLOBAL_DATA_PTR;
 
+#ifdef CONFIG_RESET_BUTTON
 static void check_reset_button(void);
 /* we use the reserved memory for NSS to store the reset button status */
 char *reset_btn = (char *)IPQ_MEM_RESERVE_BASE(nss);
+#endif
 
 extern int setenv_addr(const char *varname, const void *addr);
 extern unsigned gpio_value(unsigned);
